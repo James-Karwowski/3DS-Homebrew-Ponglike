@@ -1,4 +1,4 @@
-# Pong 2 (3DS Edition) - Ver. 1.0.0
+# Pong 2 (3DS Edition) - Ver. 1.0.1
 A Nintendo 3DS Homebrew version of the Fairchild Channel F video game "Hockey".
 
 "Hockey" is a clone of the classic game "Pong" which uses the typical main paddle and introduces a second paddle that acts like a goalie. The main paddle has some unique mechanics in "Hockey" which include 2D movement (rather than just one-axis movement) and center-pivot rotation.

@@ -102,6 +102,9 @@ typedef struct {
 static C3D_RenderTarget* top_target;
 static C3D_RenderTarget* bot_target;
 
+static C2D_SpriteSheet rinkSheet;
+static C2D_Image rinkImage;
+
 static Paddle left_paddle;
 static Paddle right_paddle;
 
@@ -196,18 +199,18 @@ static void activatePowerSpot(PowerSpot s, u32 color){
         }
         if(spotPower.isFlash == true){
             for(int i = 0; i < 10000; i++){
-                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,255,255,255));
-                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,255,255,255));
-                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,255,255,255));
-                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,255,255,255));
-                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,255,255,255));
-                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,255,255,255));
-                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,255,255,255));
-                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,255,255,255));
-                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,255,255,255));
-                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,255,255,255));
-                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,255,255,255));
-                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,255,255,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(255,0,255,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(255,0,255,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(255,0,255,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(255,0,255,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(255,0,255,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(255,0,255,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(255,0,255,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(255,0,255,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(255,0,255,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(255,0,255,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(255,0,255,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(255,0,255,255));
                 
                 C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,0,0,255));
                 C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,0,0,255));
@@ -299,10 +302,10 @@ static void update_puck() {
     puck.x += puck.vx;
     puck.y += puck.vy;
 
-    float rink_top = (SCREEN_H - RINK_H) * 0.5f;
-    float rink_bottom = rink_top + RINK_H;
-    float rink_left = (SCREEN_W - RINK_W) * 0.5f;
-    float rink_right = rink_left + RINK_W;
+    float rink_top = (SCREEN_H - RINK_H) * 0.5f + 4;
+    float rink_bottom = rink_top + RINK_H - 8;
+    float rink_left = (SCREEN_W - RINK_W) * 0.5f + 4;
+    float rink_right = rink_left + RINK_W - 8;
 
     // Bounce off top/bottom
     if (puck.y < rink_top) { puck.y = rink_top; puck.vy = -puck.vy; }
@@ -398,8 +401,9 @@ static void draw_scene() {
     float rink_y = (SCREEN_H - RINK_H) * 0.5f;
 
     // Rink background
-    C2D_DrawRectSolid(0, 0, 0, SCREEN_W, SCREEN_H, C2D_Color32(0,255,255,255));
-    C2D_DrawRectSolid(rink_x, rink_y, 0, RINK_W, RINK_H, C2D_Color32(161,191,200,255));
+    C2D_DrawRectSolid(0, 0, 0, SCREEN_W, SCREEN_H, C2D_Color32(128,128,128,255));
+    C2D_DrawRectSolid(rink_x, rink_y, 0, RINK_W, RINK_H, C2D_Color32(0,185,255,255));
+    //C2D_DrawImageAt(rinkImage, rink_x, rink_y, 0.0f, NULL, 1.0f, 1.0f);
 
 
     // Top/bottom borders
@@ -415,11 +419,11 @@ static void draw_scene() {
     C2D_DrawRectSolid(rink_x + RINK_W - 4, gap_y + goal_gap, 0, 4, rink_y + RINK_H - (gap_y + goal_gap), C2D_Color32(255,255,255,255));
 
     // Paddles
-    drawPaddle(&left_paddle, C2D_Color32(0,0,255,255));
+    drawPaddle(&left_paddle, C2D_Color32(255,0,0,255));
     drawPaddle(&right_paddle, C2D_Color32(0,128,0,255));
 
     // Goalies
-    drawGoalie(&left_goalie, C2D_Color32(0,0,255,255));
+    drawGoalie(&left_goalie, C2D_Color32(255,0,0,255));
     drawGoalie(&right_goalie, C2D_Color32(0,128,0,255));
 
     // Puck
@@ -467,6 +471,14 @@ int main(int argc, char** argv) {
 
     top_target = C2D_CreateScreenTarget(GFX_TOP, GFX_LEFT);
     bot_target = C2D_CreateScreenTarget(GFX_BOTTOM, GFX_LEFT);
+
+    romfsInit();
+    rinkSheet = C2D_SpriteSheetLoad("romfs:/rink.t3x");
+    if (!rinkSheet) {
+        printf("Failed to load rink image!\n");
+    }
+    rinkImage = C2D_SpriteSheetGetImage(rinkSheet, 0);
+
 
     init_game();
 
@@ -521,20 +533,22 @@ int main(int argc, char** argv) {
         // Draw bottom screen scores
         consoleSelect(&bottomScreen);
         consoleClear();
-        printf("COM Score: %d\n", left_score);
+        printf("\nCOM Score: %d\n", left_score);
         printf("ONE Score: %d\n", right_score);
         
         if(left_score >= 10) {
-            printf("\nPlayer COM Wins!\nTo exit/restart, please press HOME and close the application.\nTo pause, press B.");
+            printf("\nPlayer COM Wins!\nWELCOME TO PONG 2: 3DS EDITION\n\nTo exit/restart, please press HOME and close the application.\nTo pause, press B.");
         } else if(right_score >= 10) {
-            printf("\nPlayer ONE Wins!\nTo exit/restart, please press HOME and close the application.\nTo pause, press B.");
+            printf("\nPlayer ONE Wins!\nWELCOME TO PONG 2: 3DS EDITION\n\nTo exit/restart, please press HOME and close the application.\nTo pause, press B.");
         } else {
-            printf("\nPress B to pause.\nTo exit/restart, please press HOME and close the application.\n");
+            printf("\nWELCOME TO PONG 2: 3DS EDITION\n\nPress B to pause.\nTo exit/restart, please press HOME and close the application.\n");
         }
 
         gspWaitForVBlank();
     }
 
+    C2D_SpriteSheetFree(rinkSheet);
+    romfsExit();
     C2D_Fini();
     C3D_Fini();
     gfxExit();
