@@ -401,7 +401,7 @@ static void draw_scene() {
     float rink_y = (SCREEN_H - RINK_H) * 0.5f;
 
     // Rink background
-    C2D_DrawRectSolid(0, 0, 0, SCREEN_W, SCREEN_H, C2D_Color32(128,128,128,255));
+    C2D_DrawRectSolid(0, 0, 0, SCREEN_W, SCREEN_H, C2D_Color32(128,128,255,255));
     C2D_DrawRectSolid(rink_x, rink_y, 0, RINK_W, RINK_H, C2D_Color32(0,185,255,255));
     //C2D_DrawImageAt(rinkImage, rink_x, rink_y, 0.0f, NULL, 1.0f, 1.0f);
 
@@ -477,8 +477,7 @@ int main(int argc, char** argv) {
     if (!rinkSheet) {
         printf("Failed to load rink image!\n");
     }
-    rinkImage = C2D_SpriteSheetGetImage(rinkSheet, 0);
-
+    rinkImage = C2D_SpriteSheetGetImage(rinkSheet, 1);
 
     init_game();
 
@@ -487,7 +486,7 @@ int main(int argc, char** argv) {
         u32 kDown = hidKeysDown();
         u32 kHeld = hidKeysHeld();
 
-        if(kHeld && KEY_X){
+        if(kHeld & KEY_X){
             bool choseClientOption = selectNetMode();
             if(choseClientOption){
                 isClient = true;
@@ -495,7 +494,6 @@ int main(int argc, char** argv) {
                 isHost = true;
             }
         }
-
         if (kDown & KEY_B) pauseGame();
         
         // Circle Pad for right paddle
@@ -533,15 +531,15 @@ int main(int argc, char** argv) {
         // Draw bottom screen scores
         consoleSelect(&bottomScreen);
         consoleClear();
-        printf("\nCOM Score: %d\n", left_score);
-        printf("ONE Score: %d\n", right_score);
+        printf("\nCPU Score: %d\n", left_score);
+        printf("USR Score: %d\n", right_score);
         
         if(left_score >= 10) {
-            printf("\nPlayer COM Wins!\nWELCOME TO PONG 2: 3DS EDITION\n\nTo exit/restart, please press HOME and close the application.\nTo pause, press B.");
+            printf("\nPlayer CPU Wins!\n\n\nWELCOME TO PONG 2: 3DS EDITION\n\nTo exit, please press HOME and close the application.\n\nTo pause, press B.\n\nTo restart, please close and reopen the game.");
         } else if(right_score >= 10) {
-            printf("\nPlayer ONE Wins!\nWELCOME TO PONG 2: 3DS EDITION\n\nTo exit/restart, please press HOME and close the application.\nTo pause, press B.");
+            printf("\nPlayer USR Wins!\n\n\nWELCOME TO PONG 2: 3DS EDITION\n\nTo exit, please press HOME and close the application.\n\nTo pause, press B.\n\nTo restart, please close and reopen the game.");
         } else {
-            printf("\nWELCOME TO PONG 2: 3DS EDITION\n\nPress B to pause.\nTo exit/restart, please press HOME and close the application.\n");
+            printf("\n\n\nWELCOME TO PONG 2: 3DS EDITION\n\nTo exit, please press HOME and close the application.\n\nTo pause, press B.\n\nTo restart, please close and reopen the game.");
         }
 
         gspWaitForVBlank();
