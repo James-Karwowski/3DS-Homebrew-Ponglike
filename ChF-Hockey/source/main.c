@@ -63,8 +63,8 @@
 
 // Speeds
 #define PUCK_SPEED_INIT 2.5f
-#define PUCK_SPEED_BOOST 1.08f
-#define PUCK_SPEED_MAX 6.0f
+#define PUCK_SPEED_BOOST 1.25f
+#define PUCK_SPEED_MAX 8.0f
 #define PADDLE_SPEED 10.0f
 #define AI_SPEED 3.5f
 #define ROT_SPEED 0.05f
@@ -284,7 +284,7 @@ static void handleGoalieCollision(Goalie *g) {
         puck.y < g->y + GOALIE_H && puck.y + puck.size > g->y) {
         // Simple reflection
         puck.vx = -puck.vx * PUCK_SPEED_BOOST;
-        puck.vy = puck.vy * PUCK_SPEED_BOOST;
+        puck.vy = -puck.vy * PUCK_SPEED_BOOST;
         if (puck.vx > PUCK_SPEED_MAX) {
             puck.vx = PUCK_SPEED_MAX;
         }
@@ -483,11 +483,7 @@ int main(int argc, char** argv) {
                 isHost = true;
             }
         }
-        spawnPowerSpot(powerup, C2D_Color32(0,0,0,128));
-        activatePowerSpot(powerup, C2D_Color32(0,0,0,128));
 
-        if (kDown & KEY_START) pauseGame();
-        if (kDown & KEY_SELECT) reset_game();
         if (kDown & KEY_B) pauseGame();
         
         // Circle Pad for right paddle
@@ -525,15 +521,15 @@ int main(int argc, char** argv) {
         // Draw bottom screen scores
         consoleSelect(&bottomScreen);
         consoleClear();
-        printf("Left Score: %d\n", left_score);
-        printf("Right Score: %d\n", right_score);
+        printf("COM Score: %d\n", left_score);
+        printf("ONE Score: %d\n", right_score);
         
         if(left_score >= 10) {
-            printf("\nLeft Player Wins!\nPress SELECT to reset.");
+            printf("\nPlayer COM Wins!\nTo exit/restart, please press HOME and close the application.\nTo pause, press B.");
         } else if(right_score >= 10) {
-            printf("\nRight Player Wins!\nPress SELECT to reset.");
+            printf("\nPlayer ONE Wins!\nTo exit/restart, please press HOME and close the application.\nTo pause, press B.");
         } else {
-            printf("\nPress B to pause.\nPress Y for Multiplayer Menu.");
+            printf("\nPress B to pause.\nTo exit/restart, please press HOME and close the application.\n");
         }
 
         gspWaitForVBlank();
