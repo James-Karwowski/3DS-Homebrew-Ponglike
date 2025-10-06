@@ -6,7 +6,7 @@ A Nintendo 3DS Homebrew version of the Fairchild Channel F video game "Hockey".
 This game is a variation of the original game from the Fairchild Channel F for the Nintendo 3DS, modified so that local online multiplayer is possible. There is no game engine involved, and only C programming is used (for the most part).
 
 This game is open-source, so if you wanted to modify the game in some way (i.e change the colors of the assets, add a background image, etc.), that is perfectly fine.
-NOTE: You will need devKitPro, any text-editting software, and either a modded 3DS (Not recommended for editting software) OR a 3DS emulator (recommended).
+NOTE: You will need devKitPro, any text-editting software, and either a modded 3DS (Not recommended for testing software) OR a 3DS emulator (recommended when testing).
 
 # Q&A
 # Why Though?
@@ -19,14 +19,15 @@ At the moment, the game is still a work-in-progress, and it requires a lot of de
 As of the creation of this repository, I am a first-year CS Major at the University of North Carolina at Charlotte with the status of junior. I am planning on having a concentration in Cyber Security.
 
 # How can I play?
-To play Channel Fun 'Hockey', you will need to get an original 3DS (or newer) with CFW (Custom Firmware) OR a 3DS emulator (not recommended for multiplayer). From there, download the .3dsx file above and send it to the appropriate /3ds/ folder on your SD card. After that, it should be available for you to play. Enjoy!
+To play Channel Fun 'Hockey', you will need to get an original 3DS or newer with CFW (Custom Firmware) OR a 3DS emulator (not recommended for multiplayer). From there, download the .3dsx file above and send it to the appropriate /3ds/ folder on your SD card. After that, it should be available for you to play. Enjoy!
 
 # What Tools did you use?
 VSCode, devkitPro, Citra Nightly, and GitHub Desktop. Also, ChatGPT helped explain certain things.
+
 # Where's Singleplayer mode?
 Singleplayer will automatically load up, just press B to unpause the game and start playing!
 
 # Where's Multiplayer mode?
 Multiplayer mode is still a WIP.
 
-As of the most recent commit, I plan to include two services for multiplayer. There will be an online multiplayer service and what I call the MIR service. MIR (Multiplayer Infrared) has two modes, Host (MIR-H, pronounced Murray) and Client (MIR-C, pronounced Mercy), and is center around using the IR sensor.
+As of the most recent commit, I plan to include two services for multiplayer. There will be either an online or a local multiplayer service and what I call the MIR service. MIR (Multiplayer Infrared) has two modes, Host (MIR-H, pronounced Murray) and Client (MIR-C, pronounced Mercy), and is center around using the IR sensor.
