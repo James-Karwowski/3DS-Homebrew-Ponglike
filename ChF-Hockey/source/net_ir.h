@@ -1,14 +1,13 @@
 #pragma once
 #include <3ds.h>
-#include <3ds/services/iru.h>
 
 // Initialize/exit IR system
 void netInit(void);
 void netExit(void);
 
 // Send/receive packets over IR
-int  netSendPacket(const void* data, u32 size);
-int  netRecvPacket(void* data, u32 size);
+int  netSendPacket(u8* data, u32 size);
+int  netRecvPacket(u8* data, u32 size);
 
 // Select role: host or client
 typedef enum {
@@ -20,4 +19,4 @@ typedef enum {
 extern NetMode currentMode;
 
 // Called when the player taps the touchscreen to select host/client
-void netSelectModeFromTouch(touchPosition* touch);
+bool selectNetMode();

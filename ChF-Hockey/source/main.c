@@ -34,7 +34,9 @@
 #include <unistd.h>
 #include <errno.h>
 #include <stdint.h>
+
 #include "menu.c"
+#include "net_ir.c"
 
 // Mods Go Below
 // Remove this comment, add your includes here
@@ -54,7 +56,7 @@
 #define PADDLE_H 60.0f
 
 #define GOALIE_W 10.0f
-#define GOALIE_H 30.0f
+#define GOALIE_H 20.0f
 #define GOALIE_X 10.0f
 #define GOALIE_Y_LIMIT_TOP (SCREEN_H - 75.0f)
 #define GOALIE_Y_LIMIT_BOTTOM (75.0f)
@@ -81,7 +83,20 @@ typedef struct {
     float vx, vy;
     float size;
     int justScored;
+    bool hitByRightPlayer;
 } Puck;
+
+typedef struct {
+    bool isFreeze;
+    bool isFlash;
+} Power;
+
+typedef struct {
+    float x, y;
+    float size;
+    bool hitByLeft;
+    Power psPower;
+} PowerSpot;
 
 // Globals
 static C3D_RenderTarget* top_target;
@@ -94,6 +109,11 @@ static Goalie left_goalie;
 static Goalie right_goalie;
 
 static Puck puck;
+
+static Power freeze = {true, false};
+static Power flash = {false, true};
+static Power bothPowers = {true, true};
+static PowerSpot powerup;
 
 // Scores
 static int left_score = 0;
@@ -130,6 +150,82 @@ static void init_game() {
     reset_puck(&puck);
 }
 
+static int counterA = 0;
+
+static void spawnPowerSpot(PowerSpot s, u32 color){
+    if((left_score == 2 || right_score == 2) && (counterA == 0)){
+        s.x = SCREEN_W * 0.5f;
+        s.y = SCREEN_H * 0.5f;
+        s.size = 10.0f;
+        s.hitByLeft = false;
+        s.psPower = freeze;
+        C2D_DrawLine(s.x-5, s.y-5, color, s.x+5, s.y+5, color, 10, 0);
+        counterA++;
+    }else if((counterA == 1) && (left_score == 5 || right_score == 5)){
+        s.x = SCREEN_W * 0.5f;
+        s.y = SCREEN_H * 0.5f;
+        s.size = 10.0f;
+        s.psPower = flash;
+        C2D_DrawLine(s.x-5, s.y-5, color, s.x+5, s.y+5, color, 10, 0);
+        counterA++;
+    }else if (counterA == 2 && (left_score == 8 || right_score == 8)){
+        s.x = SCREEN_W * 0.5f;
+        s.y = SCREEN_H * 0.5f;
+        s.size = 10.0f;
+        s.psPower = bothPowers;
+        C2D_DrawLine(s.x-5, s.y-5, color, s.x+5, s.y+5, color, 10, 0);
+        counterA == 0;
+    }
+}
+
+static void activatePowerSpot(PowerSpot s, u32 color){
+    float dx = puck.x + puck.size/2 - s.x;
+    float dy = puck.y + puck.size/2 - s.y;
+    float dist = sqrtf(dx*dx + dy*dy);
+    Power spotPower = s.psPower;
+
+    if(dist < (s.size/2 + puck.size/2 - 5)) {
+        if (spotPower.isFreeze == true) {
+            if(s.hitByLeft == true){
+                right_paddle.x == right_paddle.x;
+                right_paddle.y == right_paddle.y;
+            }else{
+                left_paddle.x = left_paddle.x;
+                left_paddle.y = left_paddle.y;
+            }
+        }
+        if(spotPower.isFlash == true){
+            for(int i = 0; i < 10000; i++){
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,255,255,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,255,255,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,255,255,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,255,255,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,255,255,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,255,255,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,255,255,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,255,255,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,255,255,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,255,255,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,255,255,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,255,255,255));
+                
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,0,0,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,0,0,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,0,0,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,0,0,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,0,0,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,0,0,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,0,0,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,0,0,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,0,0,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,0,0,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,0,0,255));
+                C2D_DrawRectSolid(puck.x, puck.y, 0.2f, puck.size, puck.size, C2D_Color32(0,0,0,255));
+            }
+        }
+    }
+}
+
 // Draw paddle as a thick line (rotatable)
 static void drawPaddle(Paddle *p, u32 color) {
     float halfLen = PADDLE_W / 2.0f;
@@ -154,7 +250,7 @@ static void drawGoalie(Goalie *p, u32 color) {
     float x2 = p->x + halfLen * cosA;
     float y2 = p->y + halfLen * sinA;
 
-    C2D_DrawLine(x1, y1, color, x2, y2, color, GOALIE_H - 10, 0);
+    C2D_DrawLine(x1, y1, color, x2, y2, color, GOALIE_H, 0);
 }
 
 // Handle paddle-puck collision (reflect using paddle angle)
@@ -188,7 +284,7 @@ static void handleGoalieCollision(Goalie *g) {
         puck.y < g->y + GOALIE_H && puck.y + puck.size > g->y) {
         // Simple reflection
         puck.vx = -puck.vx * PUCK_SPEED_BOOST;
-        puck.vy = -puck.vy * PUCK_SPEED_BOOST;
+        puck.vy = puck.vy * PUCK_SPEED_BOOST;
         if (puck.vx > PUCK_SPEED_MAX) {
             puck.vx = PUCK_SPEED_MAX;
         }
@@ -302,7 +398,7 @@ static void draw_scene() {
     float rink_y = (SCREEN_H - RINK_H) * 0.5f;
 
     // Rink background
-    C2D_DrawRectSolid(0, 0, 0, SCREEN_W, SCREEN_H, C2D_Color32(161,171,200,255));
+    C2D_DrawRectSolid(0, 0, 0, SCREEN_W, SCREEN_H, C2D_Color32(0,255,255,255));
     C2D_DrawRectSolid(rink_x, rink_y, 0, RINK_W, RINK_H, C2D_Color32(161,191,200,255));
 
 
@@ -347,6 +443,7 @@ static void pauseGame() {
 }
 
 static bool isHost = false;
+static bool isClient = false;
 
 /* This will not be availble until later.
 static void displayText(const char* text) {
@@ -378,8 +475,16 @@ int main(int argc, char** argv) {
         u32 kDown = hidKeysDown();
         u32 kHeld = hidKeysHeld();
 
-        touchPosition touch;
-        hidTouchRead(&touch);
+        if(kHeld && KEY_X){
+            bool choseClientOption = selectNetMode();
+            if(choseClientOption){
+                isClient = true;
+            }else{
+                isHost = true;
+            }
+        }
+        spawnPowerSpot(powerup, C2D_Color32(0,0,0,128));
+        activatePowerSpot(powerup, C2D_Color32(0,0,0,128));
 
         if (kDown & KEY_START) pauseGame();
         if (kDown & KEY_SELECT) reset_game();
@@ -402,9 +507,13 @@ int main(int argc, char** argv) {
         if(right_paddle.x > SCREEN_W - 40) right_paddle.x = SCREEN_W - 40;
         if(right_paddle.x < SCREEN_W/2) right_paddle.x = SCREEN_W/2;
         
-        // --- SINGLEPLAYER (no IR selected) ---
-        update_ai();
-        update_puck();
+        if(isClient){
+
+        }else{
+            // --- SINGLEPLAYER (no IR selected) ---
+            update_ai();
+            update_puck();
+        }
 
         // Draw top screen
         C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
