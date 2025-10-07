@@ -403,8 +403,6 @@ static void draw_scene() {
     // Rink background
     C2D_DrawRectSolid(0, 0, 0, SCREEN_W, SCREEN_H, C2D_Color32(128,128,255,255));
     C2D_DrawRectSolid(rink_x, rink_y, 0, RINK_W, RINK_H, C2D_Color32(0,185,255,255));
-    //C2D_DrawImageAt(rinkImage, rink_x, rink_y, 0.0f, NULL, 1.0f, 1.0f);
-
 
     // Top/bottom borders
     C2D_DrawRectSolid(rink_x, rink_y, 0, RINK_W, 4, C2D_Color32(255, 255,255,255));
@@ -449,7 +447,7 @@ static void pauseGame() {
 static bool isHost = false;
 static bool isClient = false;
 
-/* This will not be availble until later.
+/* This will not be available until later.
 static void displayText(const char* text) {
     C2D_TextBuf textBuf = C2D_TextBufNew(4096);
     C2D_Text text = {};
@@ -471,13 +469,6 @@ int main(int argc, char** argv) {
 
     top_target = C2D_CreateScreenTarget(GFX_TOP, GFX_LEFT);
     bot_target = C2D_CreateScreenTarget(GFX_BOTTOM, GFX_LEFT);
-
-    romfsInit();
-    rinkSheet = C2D_SpriteSheetLoad("romfs:/rink.t3x");
-    if (!rinkSheet) {
-        printf("Failed to load rink image!\n");
-    }
-    rinkImage = C2D_SpriteSheetGetImage(rinkSheet, 1);
 
     init_game();
 
@@ -546,7 +537,6 @@ int main(int argc, char** argv) {
     }
 
     C2D_SpriteSheetFree(rinkSheet);
-    romfsExit();
     C2D_Fini();
     C3D_Fini();
     gfxExit();
