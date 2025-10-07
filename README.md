@@ -20,13 +20,13 @@ As of the creation of this repository, I am a first-year CS Major at the Univers
 
 # How can I play?
 To play Channel Fun 'Hockey', you will need to get an original 3DS or newer with CFW (Custom Firmware) OR a 3DS emulator (not recommended for multiplayer). From there, download the .3dsx file above. Depending on whether you use a 3DS with custom firmware (CFW) or the Citra emulator:
-O Citra emulator: Click File > Load File > Find and click your ChF-Hockey.3dsx file > Open.
- - You may see some errors in the citra-qt console depending on the version you use, but you should be able to ignore these.
-O 3DS w/ CFW (if you don't have a 3DS with custom firmware, visit the 3DS Hacks Guide website):
- - Place ChF-Hockey.3dsx into your sdmc:/3ds/ folder
- - Turn on your modded 3DS with the SD card inside.
- - Open Homebrew Launcher and open the /3ds/ folder.
- - Press A when you are on the ChF-Hockey.3dsx file.
+ - Citra emulator: Click File > Load File > Find and click your ChF-Hockey.3dsx file > Open.
+      - You may see some errors in the citra-qt console depending on the version you use, but you should be able to ignore these.   
+ - 3DS w/ CFW (if you don't have a 3DS with custom firmware, visit the 3DS Hacks Guide website):
+      - Place ChF-Hockey.3dsx into your sdmc:/3ds/ folder
+      - Turn on your modded 3DS with the SD card inside.
+      - Open Homebrew Launcher and open the /3ds/ folder.
+      - Press A when you are on the ChF-Hockey.3dsx file.
       - The game will automatically start.
 
 # What Tools did you use?
