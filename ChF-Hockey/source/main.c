@@ -533,6 +533,8 @@ int main(int argc, char** argv) {
             printf("\n\n\nWELCOME TO PONG 2: 3DS EDITION\n\nTo exit, please press HOME and close the application.\n\nTo pause, press B.\n\nTo restart, please close and reopen the game.");
         }
 
+        if(kDown & KEY_START) break;
+
         gspWaitForVBlank();
     }
 
