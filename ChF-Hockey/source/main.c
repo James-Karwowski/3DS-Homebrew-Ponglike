@@ -395,6 +395,19 @@ static void update_ai() {
     clamp_goalie(&left_goalie, 0);
 }
 
+static int isOnMenu;
+
+static void draw_menu(){
+    C2D_DrawRectSolid(0, 0, 0, SCREEN_W, SCREEN_H, C2D_Color32(128,128,255,255));
+    printf("Touch to Begin!");
+    touchPosition touch;
+    hidTouchRead(&touch);
+    if(touch.px > 0 && touch.py > 0){
+        isOnMenu = 0;
+    }
+    isOnMenu = 1;
+}
+
 // Draw rink + objects
 static void draw_scene() {
     float rink_x = (SCREEN_W - RINK_W) * 0.5f;
@@ -516,7 +529,11 @@ int main(int argc, char** argv) {
         C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
         C2D_TargetClear(top_target, C2D_Color32(0,0,0,255));
         C2D_SceneBegin(top_target);
-        draw_scene();
+        if(!isOnMenu){
+            draw_scene();
+        }else{
+            draw_menu();
+        }
         C3D_FrameEnd(0);
 
         // Draw bottom screen scores
