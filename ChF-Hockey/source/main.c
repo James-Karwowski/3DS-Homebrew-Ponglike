@@ -395,10 +395,10 @@ static void update_ai() {
     clamp_goalie(&left_goalie, 0);
 }
 
-static int isOnMenu;
+static int isOnMenu = 1;
 
 static void draw_menu(){
-    C2D_DrawRectSolid(0, 0, 0, SCREEN_W, SCREEN_H, C2D_Color32(128,128,255,255));
+    C2D_DrawRectSolid(0, 0, 0, SCREEN_W, SCREEN_H, C2D_Color32(160,160,160,255));
     printf("Touch to Begin!");
     touchPosition touch;
     hidTouchRead(&touch);
@@ -414,7 +414,7 @@ static void draw_scene() {
     float rink_y = (SCREEN_H - RINK_H) * 0.5f;
 
     // Rink background
-    C2D_DrawRectSolid(0, 0, 0, SCREEN_W, SCREEN_H, C2D_Color32(128,128,255,255));
+    C2D_DrawRectSolid(0, 0, 0, SCREEN_W, SCREEN_H, C2D_Color32(128,128,128,255));
     C2D_DrawRectSolid(rink_x, rink_y, 0, RINK_W, RINK_H, C2D_Color32(0,185,255,255));
 
     // Top/bottom borders
@@ -529,7 +529,7 @@ int main(int argc, char** argv) {
         C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
         C2D_TargetClear(top_target, C2D_Color32(0,0,0,255));
         C2D_SceneBegin(top_target);
-        if(!isOnMenu){
+        if(isOnMenu){
             draw_scene();
         }else{
             draw_menu();
