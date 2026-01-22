@@ -13,7 +13,7 @@ NOTE: You will need devKitPro, any text-editting software, and either a modded 3
 The purpose of this project was so that I can introduce myself to the general idea of game development without using a game engine.
 
 # Is it available yet?
-At the moment, the game is still a work-in-progress, and it requires a lot of development before the game is fully complete.
+At the moment, the game is still a work-in-progress, and it requires a lot of development before the game is complete.
 
 # Who are You?
 As of the creation of this repository, I am a first-year CS Major at the University of North Carolina at Charlotte with the status of junior. I am planning on having a concentration in Cyber Security.
@@ -36,6 +36,6 @@ VSCode, devkitPro, Citra Nightly, and GitHub Desktop. Also, ChatGPT helped expla
 Singleplayer will automatically load up, just press B to unpause the game and start playing!
 
 # Where's Multiplayer mode?
-Multiplayer mode is still a WIP.
+Multiplayer mode is still a WIP, and may not be implemented.
 
-As of the most recent commit, I plan to include two services for multiplayer. There will be either an online or a local multiplayer service and what I call the MIR service. MIR (Multiplayer Infrared) has two modes, Host (MIR-H, pronounced Murray) and Client (MIR-C, pronounced Mercy), and is center around using the IR sensor.
+As of the November 2025, I planned to include two services for multiplayer. There will be either an online or a local multiplayer service and what I call the MIR service. MIR (Multiplayer Infrared) has two modes, Host (MIR-H, pronounced Murray) and Client (MIR-C, pronounced Mercy), and is centered around using the IR sensor.
